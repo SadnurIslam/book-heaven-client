@@ -5,22 +5,22 @@ import { Link, NavLink } from 'react-router';
 const Navbar = () => {
 
     const navLinks = <>
-        <NavLink to='/'>Home</NavLink>
-        <NavLink to='/all-books'>All Books</NavLink>
-        <NavLink to='/add-book'>Add Book</NavLink>
-        <NavLink to='/my-books'>My Books</NavLink>
+        <NavLink to='/' className='text-navlink'>Home</NavLink>
+        <NavLink to='/all-books' className='text-navlink '>All Books</NavLink>
+        <NavLink to='/add-book' className='text-navlink'>Add Book</NavLink>
+        <NavLink to='/my-books' className='text-navlink '>My Books</NavLink>
     </>
 
     const userLinks = <>
-        <Link to='/register' className='btn btn-primary font-bold rounded-lg px-5'>Register</Link>
-        <Link to='/login' className='btn btn-soft hover:bg-[#41454D] font-bold rounded-lg px-5'>Login</Link>
+        <Link to='/register' className='my-button-primary'>Register</Link>
+        <Link to='/login' className='my-button-secondary'>Login</Link>
     </>
 
     return (
-        <div className='flex items-center justify-between py-4 border-b border-gray-700'>
+        <div className='my-navbar'>
             <div>
                 <Link to='/' className='flex items-center gap-2 font-bold text-2xl'>
-                    <MdLocalLibrary size={40} color='#1754CF'></MdLocalLibrary>
+                    <MdLocalLibrary size={40} className='logo-color'></MdLocalLibrary>
                     <span>The Book Haven</span>
                 </Link>
             </div>

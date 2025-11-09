@@ -5,13 +5,13 @@ import Navbar from '../components/Navbar';
 
 const Root = () => {
     return (
-        <div className='custom-bg min-h-screen'>
+        <div className='custom-bg'>
             <div className='max-w-7xl mx-auto px-4'>
                 <Navbar></Navbar>
                 <Outlet>
 
                 </Outlet>
-                <footer>footer</footer>
+                <footer className='min-h-screen'>footer</footer>
                 <ThemeToggle></ThemeToggle>
             </div>
         </div>

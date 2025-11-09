@@ -3,20 +3,53 @@
   themes: dark --default, light;
 }
 
-
-.custom-bg{
-  @apply bg-[#111621];
+[data-theme='dark'] {
+  --bg-primary: #111621;
+  --bg-secondary: #1a1f2e;
+  --text-primary: #ffffff;
+  --text-secondary: #cfd3da;
+  --border-color: #374151;
 }
 
-[data-theme='light'] .custom-bg {
-  @apply bg-[#F8F9FA];
+[data-theme='light'] {
+  --bg-primary: #F8F9FA;
+  --bg-secondary: #ffffff;
+  --text-primary: #111827;
+  --text-secondary: #0c0d0e;
+  --border-color: #e5e7eb;
 }
 
-.my-button-primary{
-  @apply btn btn-primary;
+.custom-bg {
+  background-color: var(--bg-primary);
 }
 
+.my-navbar{
+  @apply flex items-center justify-between py-4;
+  border-bottom: 1px solid var(--border-color);
+}
 
-a.active{
-  @apply text-blue-600 font-bold;
+.text-navlink {
+  color: var(--text-secondary);
+}
+
+.text-navlink:hover {
+  color: var(--text-primary);
+  @apply font-semibold underline;
+}
+
+a.active {
+  @apply font-bold;
+  color: var(--text-primary);
+}
+
+.my-button-primary {
+  @apply btn btn-primary px-5 rounded-lg;
+}
+
+.my-button-secondary {
+  @apply btn btn-outline btn-secondary px-5 rounded-lg;
+}
+
+.logo-color {
+  @apply text-[#336ee4];
 }

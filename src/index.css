@@ -9,6 +9,12 @@
   --text-primary: #ffffff;
   --text-secondary: #cfd3da;
   --border-color: #374151;
+  --add-btn-bg: transparent;
+  --add-btn-border:1px solid #dad3d6;
+  --add-btn-text: #dad3d6;
+  --add-btn-hover-bg: white;
+  --add-btn-hover-text: black;
+  --add-btn-hover-opacity: 0.7;
 }
 
 [data-theme='light'] {
@@ -17,6 +23,12 @@
   --text-primary: #111827;
   --text-secondary: #0c0d0e;
   --border-color: #e5e7eb;
+  --add-btn-bg: #DE2A8A;
+  --add-btn-border:none;
+  --add-btn-text: #ffffff;
+  --add-btn-hover-bg: #DE2A8A;
+  --add-btn-hover-text: #ffffff;
+  --add-btn-hover-opacity: 0.8;
 }
 
 .custom-bg {
@@ -52,4 +64,18 @@ a.active {
 
 .logo-color {
   @apply text-[#336ee4];
+}
+
+.banner-button-add{
+  @apply btn rounded-lg font-bold;
+  background: var(--add-btn-bg);
+  border:var(--add-btn-border);
+  color: var(--add-btn-text);
+}
+
+.banner-button-add:hover{
+  opacity: var(--add-btn-hover-opacity);
+  background: var(--add-btn-hover-bg);
+  color: var(--add-btn-hover-text);
+  @apply scale-105 transition-transform duration-100;
 }

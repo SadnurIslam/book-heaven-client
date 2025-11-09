@@ -1,9 +1,10 @@
 import React from 'react';
-import ThemeToggle from '../components/ThemeToggle';
+import Banner from '../components/Banner';
 
 const Home = () => {
     return (
         <div>
+            <Banner></Banner>
         </div>
     );
 };

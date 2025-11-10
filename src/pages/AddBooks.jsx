@@ -31,7 +31,8 @@ const AddBooks = () => {
                         <div className='flex flex-col h-full'>
                             <div className='flex flex-col gap-1 mb-3'>
                                 <label>Genre</label>
-                                <select name='genre' className="input select">
+                                <select name='genre' className="input select cursor-pointer">
+                                    <option value="">Select one</option>
                                     <option value="fiction">Fiction</option>
                                     <option value="non-fiction">Non-Fiction</option>
                                     <option value="mystery">Mystery</option>

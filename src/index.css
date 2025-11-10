@@ -18,6 +18,7 @@
   --input-bg: #1F2937;
   --form-bg: #111621;
   --form-border: 1px solid #374151;
+  --card-bg: #1e1e2f;
 }
 
 [data-theme='light'] {
@@ -35,6 +36,7 @@
   --input-bg: #ffffff;
   --form-bg: #ffffff;
   --form-border: 1px solid #e0e1e6;
+  --card-bg: #f5f0f0;
 }
 
 .custom-bg {
@@ -95,4 +97,18 @@ a.active {
 .input{
   background-color: var(--input-bg);
   @apply w-full outline-0 rounded-lg;
+}
+
+
+.card-container{
+  background-color: var(--card-bg);
+  @apply rounded-xl overflow-hidden shadow-lg text-white w-full hover:cursor-pointer hover:scale-105 transition-transform duration-300;
+}
+
+.text-primary{
+  color: var(--text-primary);
+}
+
+.text-secondary{
+  color: var(--text-secondary);
 }

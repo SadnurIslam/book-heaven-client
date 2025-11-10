@@ -89,7 +89,7 @@ a.active {
 .form-container{
   background-color: var(--form-bg);
   border: var(--form-border);
-  @apply  max-w-xl mx-auto my-16 flex flex-col rounded-lg p-8 shadow-lg;
+  @apply  mx-auto my-16 flex flex-col rounded-lg p-8 shadow-lg;
 }
 
 .input{

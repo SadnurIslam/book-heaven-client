@@ -50,7 +50,7 @@ const AddBooks = () => {
                     </div>
 
                     <div>
-                        <button className="btn btn-primary px-5 rounded-lg w-full">
+                        <button className="btn btn-primary px-5 rounded-lg w-full font-bold mt-2">
                             <span><FaPlus /></span> <span>Add Book</span>
                         </button>
                     </div>

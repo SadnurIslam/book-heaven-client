@@ -5,6 +5,7 @@ import Login from "../pages/Login.jsx";
 import AllBooks from "../pages/AllBooks.jsx";
 import MyBooks from "../pages/MyBooks.jsx";
 import AddBooks from "../pages/AddBooks.jsx";
+import Register from "../pages/Register.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
       {
         path: "login",
         Component: Login
+      },
+      {
+        path: "register",
+        Component: Register
       },
       {
         path: "all-books",

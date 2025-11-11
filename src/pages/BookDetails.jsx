@@ -16,7 +16,7 @@ const BookDetails = () => {
     return (
         <div className='grid grid-cols-5 gap-10 my-16 mx-auto max-w-4xl justify-center'>
             <div className='col-span-2'>
-                <img className='w-full h-full' src={book.coverImage} alt="" />
+                <img className='w-full h-full rounded-lg' src={book.coverImage} alt="" />
             </div>
             <div className='col-span-3 flex flex-col gap-5 py-5'>
                 <div>
@@ -52,13 +52,13 @@ const BookDetails = () => {
                         </div>
                         ({book.rating} / 5)</div>
                 </div>
-                <div className='flex gap-3'>
+                <div className='flex gap-3 my-5'>
                     <button className=" btn px-3 rounded-lg btn-info text-white"><MdEdit />Edit Details</button>
                     <button className=" btn px-3 rounded-lg btn-error text-white  "><RiDeleteBinLine /> Delete the Book</button>
                 </div>
                 <div>
-                    <h3 className='border-bottom mb-5 pb-2'>Summary</h3>
-                    <p>{book.summary}</p>
+                    <h3 className='border-bottom mb-5 pb-2 text-2xl font-semibold'>Summary</h3>
+                    <p className='opacity-70'>{book.summary}</p>
                 </div>
             </div>
         </div>

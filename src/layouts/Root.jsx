@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router';
 import ThemeToggle from '../components/ThemeToggle';
 import Navbar from '../components/Navbar';
+import { ToastContainer } from 'react-toastify';
 
 const Root = () => {
     return (
@@ -16,6 +17,7 @@ const Root = () => {
                 <footer className='min-h-screen'>footer</footer>
                 <ThemeToggle></ThemeToggle>
             </div>
+            <ToastContainer></ToastContainer>
         </div>
     );
 };

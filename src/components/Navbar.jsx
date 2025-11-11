@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { use } from 'react';
 import { MdLocalLibrary } from "react-icons/md";
 import { Link, NavLink } from 'react-router';
+import { AuthContext } from '../contexts/AuthContext';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
+
+    const {user,loading, signOutUser} = use(AuthContext);
+
+
+    const handleSignOut = () =>{
+        signOutUser()
+        .then(()=>{
+            toast.info(`Bye Bye! ${user.displayName}`, { autoClose: 1000 });
+        })
+        .catch(error=>{
+            toast.error('Sign out failed: ' + error.code, { autoClose: 2000 });
+        });
+    }
 
     const navLinks = <>
         <NavLink to='/' className='text-navlink'>Home</NavLink>
@@ -14,6 +29,11 @@ const Navbar = () => {
     const userLinks = <>
         <Link to='/register' className='my-button-primary'>Register</Link>
         <Link to='/login' className='my-button-secondary'>Login</Link>
+    </>
+
+    const loggedInUserLinks = <>
+        <div className='h-10 w-10'><img className='rounded-full' src={user?.photoURL} alt={user?.displayName} /></div>
+        <button onClick={handleSignOut} className='my-button-secondary'>Logout</button>
     </>
 
     return (
@@ -29,7 +49,12 @@ const Navbar = () => {
                     {navLinks}
                 </div>
                 <div className='flex items-center justify-end gap-4'>
-                    {userLinks}
+                    {
+                        loading ? <span>Loading...</span> :
+                        (
+                            user ? loggedInUserLinks : userLinks
+                        )
+                    }
                 </div>
             </div>
         </div>

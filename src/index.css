@@ -19,6 +19,7 @@
   --form-bg: #111621;
   --form-border: 1px solid #374151;
   --card-bg: #1e1e2f;
+  --row-border: 1px solid #374151;
 }
 
 [data-theme='light'] {
@@ -37,6 +38,7 @@
   --form-bg: #ffffff;
   --form-border: 1px solid #e0e1e6;
   --card-bg: #f5f0f0;
+  --row-border: 1px solid #e5e7eb;
 }
 
 .custom-bg {
@@ -111,4 +113,9 @@ a.active {
 
 .text-secondary{
   color: var(--text-secondary);
+}
+
+
+.row-border{
+  border: var(--row-border);
 }

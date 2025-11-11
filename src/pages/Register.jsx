@@ -46,7 +46,7 @@ const Register = () => {
 
 
     return (
-        <div>
+        <div className='my-16'>
             <div className='form-container max-w-md'>
                 <h2 className='text-4xl font-bold mx-auto mb-3'>Join The Book Haven</h2>
                 <h4 className='opacity-60 mx-auto mb-5'>Start building your digital library today.</h4>

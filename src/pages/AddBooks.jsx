@@ -3,7 +3,7 @@ import { FaPlus } from 'react-icons/fa';
 
 const AddBooks = () => {
     return (
-        <div>
+        <div className='my-16'>
             <div className=' form-container max-w-5xl'>
                 <h2 className='text-4xl font-bold mx-auto mb-3'>Add a New Book</h2>
                 <h4 className='opacity-60 mx-auto mb-5'>Fill in the details to publish a new book.</h4>

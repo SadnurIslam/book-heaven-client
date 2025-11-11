@@ -43,7 +43,7 @@ const Login = () => {
     }
 
     return (
-        <div>
+        <div className='my-16'>
             <div className='form-container max-w-md'>
                 <h2 className='text-4xl font-bold mx-auto mb-3'>Welcome Back</h2>
                 <h4 className='opacity-60 mx-auto mb-5'>Log in to your account to continue.</h4>

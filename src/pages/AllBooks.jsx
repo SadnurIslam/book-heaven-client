@@ -9,7 +9,7 @@ const AllBooks = () => {
         { _id: 3, title: 'Book Three', author: 'Author C', rating: 3.5 },
     ]
     return (
-        <div className='my-10'>
+        <div className='my-12'>
             <h2 className='text-4xl font-bold mx-auto mb-3'>Our Digital Collection</h2>
             <h4 className='opacity-60 mx-auto mb-3'>Browse, search, and discover your next favorite book from our extensive library.</h4>
             <div className='text-end mb-4'>

@@ -4,7 +4,7 @@ import { AuthContext } from '../contexts/AuthContext';
 
 const Login = () => {
 
-    const {signInWithGoogle} = use(AuthContext);
+    const {signInWithGoogle, signInWithPassword} = use(AuthContext);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -24,12 +24,30 @@ const Login = () => {
         })
     }
 
+    const handleSignIn = (event) => {
+        event.preventDefault();
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+
+        console.log("Sign In Data:", {email, password});
+        signInWithPassword(email, password)
+        .then(result=>{
+            const user = result.user;
+            console.log("Signed In User:", user);
+            navigate(location?.state || '/');
+        })
+        .catch(error=>{
+            console.log("Error:", error.message);
+        });
+
+    }
+
     return (
         <div>
             <div className='form-container max-w-md'>
                 <h2 className='text-4xl font-bold mx-auto mb-3'>Welcome Back</h2>
                 <h4 className='opacity-60 mx-auto mb-5'>Log in to your account to continue.</h4>
-                <form>
+                <form onSubmit={handleSignIn}>
                     <div className='flex flex-col gap-1 mb-3'>
                         <label className=''>Email</label>
                         <input name='email' type="email" className="input" placeholder="Enter your email" />

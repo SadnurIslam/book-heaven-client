@@ -4,7 +4,7 @@ import { AuthContext } from '../contexts/AuthContext';
 
 const Register = () => {
 
-    const {signInWithGoogle} = use(AuthContext);
+    const {signInWithGoogle, createUserWithPassword} = use(AuthContext);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -24,13 +24,33 @@ const Register = () => {
         })
     }
 
+    const handleRegistration = (event) => {
+        event.preventDefault();
+        const name = event.target.name.value;
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+        const photo = event.target.photo.value;
+
+        console.log("Registration Data:", {name, email, password, photo});
+        createUserWithPassword(email, password)
+        .then(result=>{
+            const user = result.user;
+            console.log("Registered User:", user);
+            navigate('/');
+        })
+        .catch(error=>{
+            console.log("Error:", error.message);
+        });
+
+    }
+
 
     return (
         <div>
             <div className='form-container max-w-md'>
                 <h2 className='text-4xl font-bold mx-auto mb-3'>Join The Book Haven</h2>
                 <h4 className='opacity-60 mx-auto mb-5'>Start building your digital library today.</h4>
-                <form>
+                <form onSubmit={handleRegistration}>
                     <div className='flex flex-col gap-1 mb-3'>
                         <label className=''>Name</label>
                         <input name='name' type="text" className="input" placeholder="Enter your name" />

@@ -1,10 +1,12 @@
 import React, { use } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { AuthContext } from '../contexts/AuthContext';
+import toast from "react-hot-toast";
+
 
 const Login = () => {
 
-    const {signInWithGoogle, signInWithPassword} = use(AuthContext);
+    const {signInWithGoogle, signInWithPassword, setLoading} = use(AuthContext);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -17,9 +19,11 @@ const Login = () => {
             const photo = result.user.photoURL;
             const userInfo = {name, email, photo};
             console.log("User Info:", userInfo);
+            setLoading(false);
             navigate(location?.state || '/');
         })
         .catch(error=>{
+            setLoading(false);
             console.log("Error:", error.message);
         })
     }
@@ -33,10 +37,12 @@ const Login = () => {
         signInWithPassword(email, password)
         .then(result=>{
             const user = result.user;
-            console.log("Signed In User:", user);
+            toast.success(`Welcome back! ${user.displayName}`, { autoClose: 1000 });
+            setLoading(false);
             navigate(location?.state || '/');
         })
         .catch(error=>{
+            setLoading(false);
             console.log("Error:", error.message);
         });
 

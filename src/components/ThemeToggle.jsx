@@ -22,7 +22,10 @@ function ThemeToggle() {
   return (
     <div>
       <div className='cursor-pointer text-lg flex items-center gap-2'>
-        🌙<input onClick={toggleTheme} type="checkbox" checked={checked} className="toggle toggle-warning" />☀️
+        <button onClick={toggleTheme} className='cursor-pointer text-2xl'>{
+            theme === 'light' ? '🌙' : '☀️'
+          }
+        </button>
       </div>
     </div>
   );

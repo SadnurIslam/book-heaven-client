@@ -10,6 +10,8 @@ const Navbar = () => {
 
     const { user, loading, signOutUser } = use(AuthContext);
 
+    console.log("Current User in Navbar:", user);
+
 
     const handleSignOut = () => {
         signOutUser()

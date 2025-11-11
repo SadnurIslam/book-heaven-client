@@ -1,9 +1,8 @@
 import React from 'react';
 import { Outlet } from 'react-router';
-import ThemeToggle from '../components/ThemeToggle';
 import Navbar from '../components/Navbar';
-import { ToastContainer } from 'react-toastify';
 import Footer from '../components/Footer';
+import { Toaster } from 'react-hot-toast';
 
 const Root = () => {
     return (
@@ -17,7 +16,7 @@ const Root = () => {
                 </div>
                 <Footer></Footer>
             </div>
-            <ToastContainer></ToastContainer>
+            <Toaster/>
         </div>
     );
 };

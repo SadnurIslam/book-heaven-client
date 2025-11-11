@@ -1,13 +1,16 @@
 import React, { use } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { AuthContext } from '../contexts/AuthContext';
+// import useAxios from '../hooks/useAxios';
 
 const Register = () => {
 
-    const {signInWithGoogle, createUserWithPassword} = use(AuthContext);
+    const {signInWithGoogle, createUserWithPassword, setLoading, updateUserInfo} = use(AuthContext);
 
     const navigate = useNavigate();
     const location = useLocation();
+
+    // const axios = useAxios ();
 
     const handleGoogleSignIn = ()=>{
         signInWithGoogle()
@@ -17,9 +20,19 @@ const Register = () => {
             const photo = result.user.photoURL;
             const userInfo = {name, email, photo};
             console.log("User Info:", userInfo);
+
+            // axios.post('/users', userInfo)
+            // .then(response=>{
+            //     console.log("User info saved to backend:", response.data);
+            // })
+            // .catch(error=>{
+            //     console.log("Error saving user info to backend:", error.message);
+            // });
+            setLoading(false);
             navigate(location?.state || '/');
         })
         .catch(error=>{
+            setLoading(false);
             console.log("Error:", error.message);
         })
     }
@@ -36,9 +49,24 @@ const Register = () => {
         .then(result=>{
             const user = result.user;
             console.log("Registered User:", user);
+            const userInfo = {name, email, photo};
+            console.log("User Info to be sent to backend:", userInfo);
+
+            updateUserInfo({displayName: name, photoURL: photo})
+
+            // axios.post('/users', userInfo)
+            // .then(response=>{
+            //     console.log("User info saved to backend:", response.data);
+            // })
+            // .catch(error=>{
+            //     console.log("Error saving user info to backend:", error.message);
+            // });
+            setLoading(false);
+
             navigate('/');
         })
         .catch(error=>{
+            setLoading(false);
             console.log("Error:", error.message);
         });
 

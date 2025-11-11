@@ -3,6 +3,7 @@ import { MdLocalLibrary } from "react-icons/md";
 import { Link, NavLink } from 'react-router';
 import { AuthContext } from '../contexts/AuthContext';
 import { toast } from 'react-toastify';
+import ThemeToggle from './ThemeToggle';
 
 const Navbar = () => {
 
@@ -24,6 +25,7 @@ const Navbar = () => {
         <NavLink to='/all-books' className='text-navlink '>All Books</NavLink>
         <NavLink to='/add-book' className='text-navlink'>Add Book</NavLink>
         <NavLink to='/my-books' className='text-navlink '>My Books</NavLink>
+        <ThemeToggle></ThemeToggle>
     </>
 
     const userLinks = <>

@@ -35,7 +35,8 @@ const AddBooks = () => {
             rating: parseFloat(rating),
             genre,
             summary,
-            userEmail: user?.email
+            userEmail: user?.email,
+            userName: user?.displayName
         };
 
         console.log("New Book Data:", newBook);

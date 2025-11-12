@@ -1,14 +1,40 @@
-import React from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { Star } from 'lucide-react';
 import { FaPlus } from 'react-icons/fa';
 import { Link } from 'react-router';
+import useAxios from '../hooks/useAxios';
+import { AuthContext } from '../contexts/AuthContext';
 
 const MyBooks = () => {
-    const books = [
-        { _id: 1, title: 'Book One', author: 'Author A', rating: 4.5 },
-        { _id: 2, title: 'Book Two', author: 'Author B', rating: 4.0 },
-        { _id: 3, title: 'Book Three', author: 'Author C', rating: 3.5 },
-    ]
+    // const books = [
+    //     { _id: 1, title: 'Book One', author: 'Author A', rating: 4.5 },
+    //     { _id: 2, title: 'Book Two', author: 'Author B', rating: 4.0 },
+    //     { _id: 3, title: 'Book Three', author: 'Author C', rating: 3.5 },
+    // ]
+
+    const [books, setBooks] = useState([]);
+    const axios = useAxios();
+    const {user} = use(AuthContext);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(()=>{
+        setLoading(true);
+        axios.get(`books?email=${user.email}`)
+        .then(response=>{
+            setBooks(response.data);
+        })
+        .catch(error=>{
+            console.error('Error fetching user books:', error);
+        })
+        .finally(()=>{
+            setLoading(false);
+        });
+    },[axios, user.email]);
+
+    if(loading){
+        return <div className='text-center my-20'>Loading your books...</div>;
+    }
+
     return (
         <div className='my-10'>
             <h2 className='text-4xl font-bold mx-auto mb-3'>My Books</h2>

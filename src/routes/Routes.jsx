@@ -8,6 +8,7 @@ import AddBooks from "../pages/AddBooks.jsx";
 import Register from "../pages/Register.jsx";
 import BookDetails from "../pages/BookDetails.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
+import ErrorPage from "../pages/ErrorPage.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
       {
         path: "book-details/:id",
         element: <PrivateRoute><BookDetails></BookDetails></PrivateRoute>
+      },
+      {
+        path: "*",
+        Component: ErrorPage
       }
     ]
   },

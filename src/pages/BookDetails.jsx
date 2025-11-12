@@ -6,6 +6,7 @@ import { useParams } from 'react-router';
 import useAxios from '../hooks/useAxios';
 import { toast } from 'react-toastify';
 import UpdateModal from '../components/UpdateModal';
+import NoBookFound from './NoBookFound';
 
 const BookDetails = () => {
     const [book, setBook] = useState(null);
@@ -33,6 +34,10 @@ const BookDetails = () => {
 
     if(loading){
         return <div className='text-center my-20'>Loading book details...</div>;
+    }
+
+    if(!book){
+        return <NoBookFound></NoBookFound>
     }
 
     const openUpdateModal = () => {

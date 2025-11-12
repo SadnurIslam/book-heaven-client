@@ -109,7 +109,7 @@ const MyBooks = () => {
                                     </td>
 
                                     <td className="flex gap-2 justify-center">
-                                        <button className=" btn btn-info text-white btn-sm rounded-lg">View</button>
+                                        <button className="btn btn-info text-white btn-sm rounded-lg">View</button>
                                         <button onClick={()=>openUpdateModal(book)} className=" btn  btn-sm rounded-lg btn-warning text-white">Update</button>
 
                                         <button className=" btn btn-sm rounded-lg btn-error text-white  ">Delete</button>

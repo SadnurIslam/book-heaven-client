@@ -4,7 +4,7 @@ import { MdLocalLibrary } from 'react-icons/md';
 
 const Footer = () => {
     return (
-        <div>
+        <div className='mt-20'>
             <footer className="footer footer-horizontal footer-center my-footer py-12 text-center">
                 <aside>
                     <MdLocalLibrary size={50} className='logo-color'></MdLocalLibrary>

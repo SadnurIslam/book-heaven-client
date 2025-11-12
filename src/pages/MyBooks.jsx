@@ -1,9 +1,10 @@
-import React, { use, useEffect, useState } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import { Star } from 'lucide-react';
 import { FaPlus } from 'react-icons/fa';
 import { Link } from 'react-router';
 import useAxios from '../hooks/useAxios';
 import { AuthContext } from '../contexts/AuthContext';
+import UpdateModal from '../components/UpdateModal';
 
 const MyBooks = () => {
     // const books = [
@@ -14,25 +15,38 @@ const MyBooks = () => {
 
     const [books, setBooks] = useState([]);
     const axios = useAxios();
-    const {user} = use(AuthContext);
+    const { user } = use(AuthContext);
     const [loading, setLoading] = useState(true);
+    const [selectedBook, setSelectedBook] = useState(null);
 
-    useEffect(()=>{
+    const modalRef = useRef(null);
+
+    useEffect(() => {
         setLoading(true);
         axios.get(`books?email=${user.email}`)
-        .then(response=>{
-            setBooks(response.data);
-        })
-        .catch(error=>{
-            console.error('Error fetching user books:', error);
-        })
-        .finally(()=>{
-            setLoading(false);
-        });
-    },[axios, user.email]);
+            .then(response => {
+                setBooks(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching user books:', error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, [axios, user.email]);
 
-    if(loading){
+    if (loading) {
         return <div className='text-center my-20'>Loading your books...</div>;
+    }
+
+
+    const openUpdateModal = (book) => {
+        setSelectedBook(book);
+        modalRef.current.showModal();
+    }
+
+    const closeUpdateModal = () => {
+        modalRef.current.close();
     }
 
     return (
@@ -63,7 +77,7 @@ const MyBooks = () => {
                                 <tr key={book._id} className="hover odd:bg-base-100 even:bg-base-200 row-border">
                                     <td className="font-medium">{book.title}</td>
                                     <td>{book.author}</td>
-                                    <td>Fiction</td>
+                                    <td>{book.genre}</td>
                                     <td>
                                         <div className="flex items-center gap-1 text-yellow-400">
                                             <Star key={0} size={16} fill="currentColor" />
@@ -95,8 +109,9 @@ const MyBooks = () => {
                                     </td>
 
                                     <td className="flex gap-2 justify-center">
-                                        <button className=" btn btn-primary btn-sm rounded-lg">View</button>
-                                        <button className=" btn  btn-sm rounded-lg btn-warning text-white">Update</button>
+                                        <button className=" btn btn-info text-white btn-sm rounded-lg">View</button>
+                                        <button onClick={()=>openUpdateModal(book)} className=" btn  btn-sm rounded-lg btn-warning text-white">Update</button>
+
                                         <button className=" btn btn-sm rounded-lg btn-error text-white  ">Delete</button>
                                     </td>
                                 </tr>
@@ -105,6 +120,14 @@ const MyBooks = () => {
                     </table>
                 </div>
             </div>
+
+            {/* Modal for update */}
+            <dialog ref={modalRef} className="modal ">
+                <div className="modal-box w-11/12 max-w-5xl p-0">
+                    {selectedBook && <UpdateModal key={selectedBook._id} book={selectedBook} closeUpdateModal={closeUpdateModal} setBooks={setBooks} books={books}></UpdateModal>}
+                </div>
+            </dialog>
+
         </div>
     );
 };

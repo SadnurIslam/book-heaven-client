@@ -50,7 +50,7 @@ const AllBooks = () => {
                                 <tr key={book._id} className="hover odd:bg-base-100 even:bg-base-200 row-border">
                                     <td className="font-medium">{book.title}</td>
                                     <td>{book.author}</td>
-                                    <td>Fiction</td>
+                                    <td>{book.genre}</td>
                                     <td>
                                         <div className="flex items-center gap-1 text-yellow-400">
                                             <Star key={0} size={16} fill="currentColor" />
@@ -82,7 +82,7 @@ const AllBooks = () => {
                                     </td>
 
                                     <td className="flex gap-2">
-                                        <Link to={`/book-details/${book._id}`} className="mx-auto btn btn-primary btn-sm rounded-lg">View Details</Link>
+                                        <Link to={`/book-details/${book._id}`} className="mx-auto btn btn-info text-white btn-sm rounded-lg">View Details</Link>
                                         {/* <button className="btn btn-warning text-white   btn-sm">Update</button>
                                         <button className="btn btn-error text-white  btn-sm">Delete</button> */}
                                     </td>

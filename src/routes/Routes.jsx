@@ -32,7 +32,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "add-book",
-        Component: AddBooks
+        element: <PrivateRoute><AddBooks></AddBooks></PrivateRoute>
       },
       {
         path: "my-books",

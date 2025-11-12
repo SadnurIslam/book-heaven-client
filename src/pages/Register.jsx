@@ -1,40 +1,46 @@
-import React, { use } from 'react';
+import React, { use, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { AuthContext } from '../contexts/AuthContext';
+import toast from 'react-hot-toast';
+import { IoMdInformationCircle } from 'react-icons/io';
+import { Tooltip } from 'react-tooltip';
 // import useAxios from '../hooks/useAxios';
 
 const Register = () => {
 
-    const {signInWithGoogle, createUserWithPassword, setLoading, updateUserInfo} = use(AuthContext);
+    const { signInWithGoogle, createUserWithPassword, setLoading, updateUserInfo } = use(AuthContext);
 
     const navigate = useNavigate();
     const location = useLocation();
 
+    const [passwordError, setPasswordError] = useState(null);
+
+
     // const axios = useAxios ();
 
-    const handleGoogleSignIn = ()=>{
+    const handleGoogleSignIn = () => {
         signInWithGoogle()
-        .then(result=>{
-            const name = result.user.displayName;
-            const email = result.user.email;
-            const photo = result.user.photoURL;
-            const userInfo = {name, email, photo};
-            console.log("User Info:", userInfo);
-
-            // axios.post('/users', userInfo)
-            // .then(response=>{
-            //     console.log("User info saved to backend:", response.data);
-            // })
-            // .catch(error=>{
-            //     console.log("Error saving user info to backend:", error.message);
-            // });
-            setLoading(false);
-            navigate(location?.state || '/');
-        })
-        .catch(error=>{
-            setLoading(false);
-            console.log("Error:", error.message);
-        })
+            .then(result => {
+                const name = result.user.displayName;
+                // const email = result.user.email;
+                // const photo = result.user.photoURL;
+                // const userInfo = {name, email, photo};
+                // console.log("User Info:", userInfo);
+                toast.success(`Welcome! ${name}`, { autoClose: 1000 });
+                // axios.post('/users', userInfo)
+                // .then(response=>{
+                //     console.log("User info saved to backend:", response.data);
+                // })
+                // .catch(error=>{
+                //     console.log("Error saving user info to backend:", error.message);
+                // });
+                setLoading(false);
+                navigate(location?.state || '/');
+            })
+            .catch(error => {
+                setLoading(false);
+                toast.error(error.message, { autoClose: 2000 });
+            })
     }
 
     const handleRegistration = (event) => {
@@ -44,31 +50,51 @@ const Register = () => {
         const password = event.target.password.value;
         const photo = event.target.photo.value;
 
-        console.log("Registration Data:", {name, email, password, photo});
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+        const hasCapital = /[A-Z]/;
+        const hasSmall = /[a-z]/;
+
+        setPasswordError(null);
+
+        if (!passwordRegex.test(password)) {
+            if (password.length < 6) {
+                setPasswordError('Password must be at least 6 characters long.');
+            }
+            else if (!hasCapital.test(password)) {
+                setPasswordError('Password must contain at least one uppercase letter.');
+            }
+            else if (!hasSmall.test(password)) {
+                setPasswordError('Password must contain at least one lowercase letter.');
+            }
+            return;
+        }
+
+
         createUserWithPassword(email, password)
-        .then(result=>{
-            const user = result.user;
-            console.log("Registered User:", user);
-            const userInfo = {name, email, photo};
-            console.log("User Info to be sent to backend:", userInfo);
+            .then(() => {
+                // const userInfo = {name, email, photo};
 
-            updateUserInfo({displayName: name, photoURL: photo})
+                updateUserInfo({ displayName: name, photoURL: photo });
 
-            // axios.post('/users', userInfo)
-            // .then(response=>{
-            //     console.log("User info saved to backend:", response.data);
-            // })
-            // .catch(error=>{
-            //     console.log("Error saving user info to backend:", error.message);
-            // });
-            setLoading(false);
+                setLoading(false);
 
-            navigate('/');
-        })
-        .catch(error=>{
-            setLoading(false);
-            console.log("Error:", error.message);
-        });
+                toast.success(`Welcome! ${name}`, { autoClose: 1000 });
+
+                // axios.post('/users', userInfo)
+                // .then(response=>{
+                //     console.log("User info saved to backend:", response.data);
+                // })
+                // .catch(error=>{
+                //     console.log("Error saving user info to backend:", error.message);
+                // });
+
+
+                navigate('/');
+            })
+            .catch(error => {
+                setLoading(false);
+                toast.error(error.message, { autoClose: 2000 });
+            });
 
     }
 
@@ -81,20 +107,22 @@ const Register = () => {
                 <form onSubmit={handleRegistration}>
                     <div className='flex flex-col gap-1 mb-3'>
                         <label className=''>Name</label>
-                        <input name='name' type="text" className="input" placeholder="Enter your name" />
+                        <input name='name' type="text" className="input" placeholder="Enter your name" required />
                     </div>
                     <div className='flex flex-col gap-1 mb-3'>
                         <label className=''>Email</label>
-                        <input name='email' type="email" className="input" placeholder="Enter your email" />
+                        <input name='email' type="email" className="input" placeholder="Enter your email" required />
                     </div>
                     <div className='flex flex-col gap-1 mb-3'>
-                        <label className=''>Password</label>
+                        <label className='flex gap-2 items-center'>Password <a data-tooltip-id="info-tooltip"
+                            data-tooltip-place='bottom'><IoMdInformationCircle /></a> </label>
                         <input name='password' type="password" className="input" placeholder="Enter your password" />
+                        {passwordError && <p className='text-red-500 text-sm mt-1'>{passwordError}</p>}
                     </div>
 
                     <div className='flex flex-col gap-1 mb-4'>
                         <label className=''>Photo URL</label>
-                        <input name='photo' type="text" className="input" placeholder="Enter your photo URL" />
+                        <input name='photo' type="text" className="input" placeholder="Enter your photo URL" required />
                     </div>
 
                     <div>
@@ -116,6 +144,18 @@ const Register = () => {
                     <p className='text-center mt-2'>Already registered? <Link to="/login" className='text-blue-500 underline'>Login here</Link></p>
                 </div>
             </div>
+            <Tooltip
+                id="info-tooltip"
+                place="bottom"
+                className="bg-neutral-800 text-white rounded-md px-3 py-1 shadow-lg"
+                content={
+                    <ul className="text-sm space-y-1">
+                        <li>Password must be at least 6 characters long.</li>
+                        <li>Must contain at least one uppercase letter.</li>
+                        <li>Must contain at least one lowercase letter.</li>
+                    </ul>
+                }
+            />
         </div>
     );
 };

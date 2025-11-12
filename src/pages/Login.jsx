@@ -8,6 +8,8 @@ const Login = () => {
 
     const {signInWithGoogle, signInWithPassword, setLoading} = use(AuthContext);
 
+
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -15,16 +17,13 @@ const Login = () => {
         signInWithGoogle()
         .then(result=>{
             const name = result.user.displayName;
-            const email = result.user.email;
-            const photo = result.user.photoURL;
-            const userInfo = {name, email, photo};
-            console.log("User Info:", userInfo);
             setLoading(false);
+            toast.success(`Welcome! ${name}`, { autoClose: 1000 });
             navigate(location?.state || '/');
         })
         .catch(error=>{
+            toast.error(error.message, { autoClose: 2000 });
             setLoading(false);
-            console.log("Error:", error.message);
         })
     }
 
@@ -42,8 +41,8 @@ const Login = () => {
             navigate(location?.state || '/');
         })
         .catch(error=>{
+            toast.error(error.message, { autoClose: 2000 });
             setLoading(false);
-            console.log("Error:", error.message);
         });
 
     }
@@ -56,11 +55,11 @@ const Login = () => {
                 <form onSubmit={handleSignIn}>
                     <div className='flex flex-col gap-1 mb-3'>
                         <label className=''>Email</label>
-                        <input name='email' type="email" className="input" placeholder="Enter your email" />
+                        <input name='email' type="email" className="input" placeholder="Enter your email" required />
                     </div>
                     <div className='flex flex-col gap-1 mb-1'>
                         <label className=''>Password</label>
-                        <input name='password' type="password" className="input" placeholder="Enter your password" />
+                        <input name='password' type="password" className="input" placeholder="Enter your password" required/>
                     </div>
 
                     <div className='text-right mb-4 cursor-pointer'>

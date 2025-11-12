@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Star } from 'lucide-react';
+import useAxios from '../hooks/useAxios';
 
 
 const AllBooks = () => {
-    const books = [
-        { _id: 1, title: 'Book One', author: 'Author A', rating: 4.5 },
-        { _id: 2, title: 'Book Two', author: 'Author B', rating: 4.0 },
-        { _id: 3, title: 'Book Three', author: 'Author C', rating: 3.5 },
-    ]
+    
+    const [books, setBooks] = useState([]);
+
+    const axios = useAxios();
+
+    useEffect(() => {
+        axios.get('/books')
+            .then(response => {
+                setBooks(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching books:', error);
+            });
+    }, [axios]);
+
     return (
         <div className='my-12'>
             <h2 className='text-4xl font-bold mx-auto mb-3'>Our Digital Collection</h2>

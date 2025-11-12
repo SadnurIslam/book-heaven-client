@@ -2,6 +2,7 @@ import React, { use, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import useAxios from '../hooks/useAxios';
 import { AuthContext } from '../contexts/AuthContext';
+import Swal from 'sweetalert2';
 
 const AddBooks = () => {
 
@@ -25,6 +26,8 @@ const AddBooks = () => {
             return;
         }
 
+        setError(null);
+
         const newBook = {
             title,
             author,
@@ -38,12 +41,20 @@ const AddBooks = () => {
         console.log("New Book Data:", newBook);
 
         axios.post('/books', newBook)
-            .then(response => {
-                console.log("Book added successfully:", response.data);
+            .then(() => {
+                Swal.fire({
+                    title: "Book added successfully!",
+                    icon: "success",
+                    draggable: false
+                  });
                 form.reset();
             })
             .catch(error => {
-                console.error("Error adding book:", error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: error.message
+                  });
             });
     }
 

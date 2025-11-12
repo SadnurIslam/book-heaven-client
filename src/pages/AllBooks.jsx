@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Star } from 'lucide-react';
+import {  Star } from 'lucide-react';
+import { Link } from 'react-router';
 import useAxios from '../hooks/useAxios';
 
 
@@ -81,7 +82,7 @@ const AllBooks = () => {
                                     </td>
 
                                     <td className="flex gap-2">
-                                        <button className="mx-auto btn btn-primary btn-sm rounded-lg">View Details</button>
+                                        <Link to={`/book-details/${book._id}`} className="mx-auto btn btn-primary btn-sm rounded-lg">View Details</Link>
                                         {/* <button className="btn btn-warning text-white   btn-sm">Update</button>
                                         <button className="btn btn-error text-white  btn-sm">Delete</button> */}
                                     </td>

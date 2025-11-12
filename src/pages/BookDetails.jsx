@@ -1,18 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Star } from 'lucide-react';
 import { MdEdit } from 'react-icons/md';
 import { RiDeleteBinLine } from 'react-icons/ri';
+import { useParams } from 'react-router';
+import useAxios from '../hooks/useAxios';
+import { toast } from 'react-toastify';
 
 const BookDetails = () => {
-    const book = {
-        coverImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuCDfEqh3rQBUsOx68WoY5VurW3MSa6Hh5cpcVQyjGUAGqaDHseDtkWlSR89QkAJha9etN8Tk-RqSEIxz1tA4twew7SqXkQ0_VDb1LWiUSOHe5QjCZ9wJJOLXM2uW75FJDmNkgkOVJDJYM-n8pi1DJiZiG87hHD_gxO4To-RfjjPOtTfPezMenklDEuLz7TojnAp7Bb9kAolILMotddzeSN2jTxxlmXxNzeDxGcrT9FhbAiSREBkNMwOp3orgKL0qAgJ-xgsfP8TI0li",
-        title: "The Great Gatsby",
-        author: "F. Scott Fitzgerald",
-        genre: "Classic Fiction",
-        rating: 4.5,
-        summary: "The Great Gatsby is a novel by F. Scott Fitzgerald that explores themes of decadence, idealism, resistance to change, social upheaval, and excess, creating a portrait of the Jazz Age in the United States."
+    const [book, setBook] = useState(null);
+    const [loading, setLoading] = useState(true);
 
+    const {id} = useParams();
+    const axios = useAxios();
+
+    useEffect(()=>{
+        setLoading(true);
+        axios.get(`/books/${id}`)
+        .then(response=>{
+            setBook(response.data);
+        })
+        .catch(error=>{
+            toast.error('Error fetching book details: ' + error.message, { autoClose: 2000 });
+        })
+        .finally(()=>{
+            setLoading(false);
+        });
+
+    },[axios, id]);
+
+    if(loading){
+        return <div className='text-center my-20'>Loading book details...</div>;
     }
+
+    console.log("Book ID from URL:", id);
+    console.log("Fetched Book Details:", book);
+
     return (
         <div className='grid grid-cols-5 gap-10 my-16 mx-auto max-w-4xl justify-center'>
             <div className='col-span-2'>

@@ -43,7 +43,7 @@ const Navbar = () => {
                 data-tooltip-content={user?.displayName}
                 data-tooltip-place='bottom'
             >
-                <img className='rounded-full' src={user?.photoURL} alt={user?.displayName} />
+                <img className='h-full w-full rounded-full' src={user?.photoURL} alt={user?.displayName} />
             </a>
             
         </div>

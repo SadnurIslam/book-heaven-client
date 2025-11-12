@@ -39,8 +39,8 @@ export const router = createBrowserRouter([
         element: <PrivateRoute><MyBooks></MyBooks></PrivateRoute>
       },
       {
-        path: "book-details",
-        Component: BookDetails
+        path: "book-details/:id",
+        element: <PrivateRoute><BookDetails></BookDetails></PrivateRoute>
       }
     ]
   },

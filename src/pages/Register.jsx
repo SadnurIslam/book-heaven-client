@@ -1,46 +1,33 @@
-import React, { use, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { AuthContext } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import { IoMdInformationCircle } from 'react-icons/io';
 import { Tooltip } from 'react-tooltip';
-// import useAxios from '../hooks/useAxios';
 
 const Register = () => {
-
     const { signInWithGoogle, createUserWithPassword, setLoading, updateUserInfo } = use(AuthContext);
-
     const navigate = useNavigate();
     const location = useLocation();
-
     const [passwordError, setPasswordError] = useState(null);
 
 
-    // const axios = useAxios ();
+    useEffect(() => {
+        document.title = "Registration - The Book Heaven";
+    })
 
     const handleGoogleSignIn = () => {
         signInWithGoogle()
             .then(result => {
                 const name = result.user.displayName;
-                // const email = result.user.email;
-                // const photo = result.user.photoURL;
-                // const userInfo = {name, email, photo};
-                // console.log("User Info:", userInfo);
                 toast.success(`Welcome! ${name}`, { autoClose: 1000 });
-                // axios.post('/users', userInfo)
-                // .then(response=>{
-                //     console.log("User info saved to backend:", response.data);
-                // })
-                // .catch(error=>{
-                //     console.log("Error saving user info to backend:", error.message);
-                // });
                 setLoading(false);
                 navigate(location?.state || '/');
             })
             .catch(error => {
                 setLoading(false);
                 toast.error(error.message, { autoClose: 2000 });
-            })
+            });
     }
 
     const handleRegistration = (event) => {
@@ -51,99 +38,60 @@ const Register = () => {
         const photo = event.target.photo.value;
 
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
-        const hasCapital = /[A-Z]/;
-        const hasSmall = /[a-z]/;
-
         setPasswordError(null);
 
         if (!passwordRegex.test(password)) {
-            if (password.length < 6) {
-                setPasswordError('Password must be at least 6 characters long.');
-            }
-            else if (!hasCapital.test(password)) {
-                setPasswordError('Password must contain at least one uppercase letter.');
-            }
-            else if (!hasSmall.test(password)) {
-                setPasswordError('Password must contain at least one lowercase letter.');
-            }
+            setPasswordError('Password must be at least 6 characters, with uppercase and lowercase letters.');
             return;
         }
 
-
         createUserWithPassword(email, password)
             .then(() => {
-                // const userInfo = {name, email, photo};
-
                 updateUserInfo({ displayName: name, photoURL: photo });
-
                 setLoading(false);
-
                 toast.success(`Welcome! ${name}`, { autoClose: 1000 });
-
-                // axios.post('/users', userInfo)
-                // .then(response=>{
-                //     console.log("User info saved to backend:", response.data);
-                // })
-                // .catch(error=>{
-                //     console.log("Error saving user info to backend:", error.message);
-                // });
-
-
                 navigate('/');
             })
             .catch(error => {
                 setLoading(false);
                 toast.error(error.message, { autoClose: 2000 });
             });
-
     }
 
-
     return (
-        <div className='my-16'>
-            <div className='form-container max-w-md'>
-                <h2 className='text-4xl font-bold mx-auto mb-3'>Join The Book Haven</h2>
-                <h4 className='opacity-60 mx-auto mb-5'>Start building your digital library today.</h4>
-                <form onSubmit={handleRegistration}>
-                    <div className='flex flex-col gap-1 mb-3'>
-                        <label className=''>Name</label>
-                        <input name='name' type="text" className="input" placeholder="Enter your name" required />
-                    </div>
-                    <div className='flex flex-col gap-1 mb-3'>
-                        <label className=''>Email</label>
-                        <input name='email' type="email" className="input" placeholder="Enter your email" required />
-                    </div>
-                    <div className='flex flex-col gap-1 mb-3'>
-                        <label className='flex gap-2 items-center'>Password <a data-tooltip-id="info-tooltip"
-                            data-tooltip-place='bottom'><IoMdInformationCircle /></a> </label>
-                        <input name='password' type="password" className="input" placeholder="Enter your password" />
-                        {passwordError && <p className='text-red-500 text-sm mt-1'>{passwordError}</p>}
-                    </div>
+        <div className="my-16">
+            <div className="form-container max-w-md">
+                <h2 className="text-primary text-3xl md:text-4xl font-extrabold mx-auto mb-0">Join The Book Haven</h2>
+                <p className="text-secondary mx-auto mb-5">Start building your digital library today.</p>
 
-                    <div className='flex flex-col gap-1 mb-4'>
-                        <label className=''>Photo URL</label>
-                        <input name='photo' type="text" className="input" placeholder="Enter your photo URL" required />
+                <form onSubmit={handleRegistration} className="flex flex-col gap-3">
+                    <input name="name" type="text" className="input" placeholder="Enter your name" required />
+                    <input name="email" type="email" className="input" placeholder="Enter your email" required />
+                    <div className="relative">
+                        <input name="password" type="password" className="input" placeholder="Enter your password" />
+                        <IoMdInformationCircle data-tooltip-id="info-tooltip" className="absolute top-3 right-3 text-gray-400" />
+                        {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
                     </div>
+                    <input name="photo" type="text" className="input" placeholder="Enter your photo URL" required />
 
-                    <div>
-                        <button className="btn btn-primary px-5 rounded-lg w-full font-bold">
-                            Register
-                        </button>
-                    </div>
-
-                </form>
-                <div>
-                    {/* Google */}
-                    <button onClick={handleGoogleSignIn} className="my-4 font-bold btn w-full rounded-lg bg-white text-black border-[#e5e5e5]">
-                        <svg aria-label="Google logo" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><g><path d="m0 0H512V512H0" fill="#fff"></path><path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path><path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path><path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path><path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path></g></svg>
-                        Login with Google
+                    <button type="submit" className="my-button-primary w-full font-bold py-3">
+                        Register
                     </button>
-                </div>
+                </form>
 
-                <div>
-                    <p className='text-center mt-2'>Already registered? <Link to="/login" className='text-blue-500 underline'>Login here</Link></p>
-                </div>
+                <button
+                    onClick={handleGoogleSignIn}
+                    className="my-button-secondary w-full font-bold py-3 mt-0 flex items-center justify-center gap-2"
+                >
+                    <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google" className="w-5 h-5" />
+                    Register with Google
+                </button>
+
+                <p className="text-center mt-4 text-secondary">
+                    Already registered? <Link to="/login" className="text-blue-500 underline">Login here</Link>
+                </p>
             </div>
+
             <Tooltip
                 id="info-tooltip"
                 place="bottom"

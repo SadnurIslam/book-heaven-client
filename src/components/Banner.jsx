@@ -4,53 +4,43 @@ import { motion } from 'framer-motion';
 
 const Banner = () => {
     return (
-        <div className='my-16 relative text-center min-h-[500px] flex flex-col justify-center items-center overflow-hidden'>
-
-            <div className='absolute top-0 left-0 w-full h-full'>
-                <img 
-                    src="https://i.ibb.co.com/jPWMy2bQ/banner.png" className='w-full h-[500px] object-cover opacity-100 rounded-lg'
+        <section className="relative flex flex-col justify-center items-center text-center min-h-[500px] md:min-h-[600px] overflow-hidden my-16 rounded-2xl">
+            <div className="absolute inset-0">
+                <img
+                    src="https://i.ibb.co.com/jPWMy2bQ/banner.png"
+                    className="w-full h-full object-cover opacity-90"
+                    alt="Banner Background"
                 />
+                <div className="absolute inset-0 bg-black/40" />
             </div>
 
             <motion.div
-                className='relative z-10'
+                className="relative z-10 max-w-3xl px-4"
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, ease: "easeOut" }}
+                transition={{ duration: 0.9 }}
             >
-                <h1 className='text-white text-5xl font-bold drop-shadow-xl'>
-                    Welcome to The Book Haven
+                <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg leading-tight">
+                    <span className='text-white'>Welcome to</span> <span className="text-blue-500">The Book Haven</span>
                 </h1>
+                <p className="text-gray-200 mt-4 text-base md:text-lg">
+                    Your Personal Digital Library — Discover, Curate, and Create.
+                </p>
 
-                <motion.h4
-                    className='text-gray-200 my-4 drop-shadow-md'
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.8 }}
-                >
-                    Your Personal Digital Library. Discover, Curate, and Create.
-                </motion.h4>
-
-                <motion.div
-                    className='flex gap-4 items-center justify-center mt-6'
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.8 }}
-                >
-                    <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.95 }}>
-                        <Link to='/all-books' className='btn btn-primary rounded-lg font-bold transition-transform duration-100'>
+                <div className="flex flex-wrap justify-center gap-4 mt-8">
+                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+                        <Link to="/all-books" className="btn btn-primary font-semibold px-6 shadow-md rounded-full!">
                             Explore All Books
                         </Link>
                     </motion.div>
-
-                    <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.95 }}>
-                        <Link to='/add-book' className='banner-button-add'>
+                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+                        <Link to="/add-book" className="btn btn-outline btn-accent font-semibold px-6 rounded-full">
                             Add a New Book
                         </Link>
                     </motion.div>
-                </motion.div>
+                </div>
             </motion.div>
-        </div>
+        </section>
     );
 };
 

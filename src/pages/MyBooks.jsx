@@ -1,135 +1,186 @@
-import React, { use, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import { Star } from 'lucide-react';
 import { FaPlus } from 'react-icons/fa';
 import { Link } from 'react-router';
 import useAxios from '../hooks/useAxios';
 import { AuthContext } from '../contexts/AuthContext';
 import UpdateModal from '../components/UpdateModal';
+import { MdEdit } from 'react-icons/md';
+import { RiDeleteBinLine } from 'react-icons/ri';
+import { FiEye } from 'react-icons/fi';
+import Swal from 'sweetalert2';
 
 const MyBooks = () => {
-    // const books = [
-    //     { _id: 1, title: 'Book One', author: 'Author A', rating: 4.5 },
-    //     { _id: 2, title: 'Book Two', author: 'Author B', rating: 4.0 },
-    //     { _id: 3, title: 'Book Three', author: 'Author C', rating: 3.5 },
-    // ]
+  const [books, setBooks] = useState([]);
+  const axios = useAxios();
+  const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
+  const [selectedBook, setSelectedBook] = useState(null);
+  const modalRef = useRef(null);
 
-    const [books, setBooks] = useState([]);
-    const axios = useAxios();
-    const { user } = use(AuthContext);
-    const [loading, setLoading] = useState(true);
-    const [selectedBook, setSelectedBook] = useState(null);
-
-    const modalRef = useRef(null);
-
-    useEffect(() => {
-        setLoading(true);
-        axios.get(`books?email=${user.email}`)
-            .then(response => {
-                setBooks(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching user books:', error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    }, [axios, user.email]);
-
-    if (loading) {
-        return <div className='text-center my-20'>Loading your books...</div>;
-    }
+  useEffect(() => {
+    document.title = "My Books - The Book Heaven";
+  })
 
 
-    const openUpdateModal = (book) => {
-        setSelectedBook(book);
-        modalRef.current.showModal();
-    }
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`books?email=${user.email}`)
+      .then((response) => setBooks(response.data))
+      .catch((error) => console.error('Error fetching user books:', error))
+      .finally(() => setLoading(false));
+  }, [axios, user.email]);
 
-    const closeUpdateModal = () => {
-        modalRef.current.close();
-    }
+  const handleBookDelete = async (bookId) => {
+    console.log('Deleting book with id:', bookId);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`/books/${bookId}`)
+          .then(() => {
+            setBooks(books.filter(book => book._id !== bookId));
+            Swal.fire(
+              "Deleted!",
+              "Your book has been deleted.",
+              "success"
+            );
+          })
+          .catch((error) => {
+            Swal.fire(
+              "Error!",
+              "There was an error deleting the book: " + error.message,
+              "error"
+            );
+          });
+      }
+    });
+  };
 
-    return (
-        <div className='my-10'>
-            <h2 className='text-4xl font-bold mx-auto mb-3'>My Books</h2>
-            <h4 className='opacity-60 mx-auto'>You have {books.length} books in your collection.</h4>
-            <div className='text-end mb-4'>
-                <Link to='/add-book' className="btn btn-primary px-5 rounded-lg font-bold mt-2">
-                    <span><FaPlus /></span> <span>Add Book</span>
-                </Link>
-            </div>
-            <div className="p">
-                <div className="overflow-x-auto rounded-lg shadow-md">
-                    <table className="table table-zebra w-full">
-                        <thead className="bg-base-200">
-                            <tr className="text-lg font-semibold row-border">
-                                <th>Title</th>
-                                <th>Author</th>
-                                <th>Genre</th>
-                                <th>Rating</th>
-                                <th className='text-center'>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody className="">
+  const openUpdateModal = (book) => {
+    setSelectedBook(book);
+    modalRef.current.showModal();
+  };
+
+  const closeUpdateModal = () => {
+    modalRef.current.close();
+  };
 
 
-                            {books?.map((book) => (
-                                <tr key={book._id} className="hover odd:bg-base-100 even:bg-base-200 row-border">
-                                    <td className="font-medium">{book.title}</td>
-                                    <td>{book.author}</td>
-                                    <td>{book.genre}</td>
-                                    <td>
-                                        <div className="flex items-center gap-1 text-yellow-400">
-                                            <Star key={0} size={16} fill="currentColor" />
-                                            {
-                                                book.rating > 1 ?
-                                                    <Star key={1} size={16} fill="currentColor" /> :
-                                                    <Star key={1} size={16} />
 
-                                            }
-                                            {
-                                                book.rating > 2 ?
-                                                    <Star key={2} size={16} fill="currentColor" /> :
-                                                    <Star key={2} size={16} />
+  return (
+    <section className="my-12 max-w-7xl mx-auto px-0 md:px-4">
+      <div className="text-center mb-7">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-primary">My Books</h2>
+        <p className="text-secondary opacity-80 mt-2 text-sm md:text-base">
+          You have {books.length} books in your collection.
+        </p>
+      </div>
 
-                                            }
-                                            {
-                                                book.rating > 3 ?
-                                                    <Star key={3} size={16} fill="currentColor" /> :
-                                                    <Star key={3} size={16} />
+      <div className="flex justify-end mb-5">
+        <Link to="/add-book" className="btn btn-primary rounded-lg px-5 font-semibold flex items-center gap-2">
+          <FaPlus /> Add Book
+        </Link>
+      </div>
 
-                                            }
-                                            {
-                                                book.rating > 4 ?
-                                                    <Star key={4} size={16} fill="currentColor" /> :
-                                                    <Star key={4} size={16} />
-                                            }
+      <div className="overflow-x-auto rounded-xl shadow-md border border-base-300">
+        <table className="table table-zebra w-full">
+          <thead className="bg-base-200 text-base font-semibold">
+            <tr>
+              <th>Title</th>
+              <th>Author</th>
+              <th className='hidden md:flex'>Genre</th>
+              <th>Rating</th>
+              <th className="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              loading ?
+                <tr>
+                  <td colSpan="5" className="text-center py-6">
+                    <span className="loading loading-spinner loading-lg"></span>
+                  </td>
+                </tr>
 
-                                        </div>
-                                    </td>
+                : (
+                  books.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" className="text-center py-6 text-secondary">
+                        No books available at the moment.
+                      </td>
+                    </tr>
+                  )
+                    :
+                    books.map((book) => (
+                      <tr key={book._id} className="hover:bg-base-300/40 transition-all">
+                        <td className="font-semibold">{book.title}</td>
+                        <td>{book.author}</td>
+                        <td className='hidden md:flex'>{book.genre}</td>
+                        <td>
+                          <div className="flex items-center gap-2 justify-center lg:justify-start">
+                            <div className='hidden lg:flex items-center gap-1'>
+                              {[...Array(5)].map((_, i) => (
+                                <Star
+                                  key={i}
+                                  size={16}
+                                  fill={i < book.rating ? 'currentColor' : 'none'}
+                                  className="text-yellow-400"
+                                />
+                              ))}
+                            </div>
+                            <span className="text-sm text-secondary"><span className='hidden lg:inline'>(</span>{book.rating}<span className='hidden lg:inline'>)</span></span>
+                          </div>
+                        </td>
+                        <td className="text-center flex justify-center gap-2">
+                          <Link to={`/book-details/${book._id}`} className="btn btn-info btn-sm text-white rounded-lg">
+                            <span className='md:hidden'><FiEye /></span>
+                            <span className='hidden md:flex'>View</span>
+                          </Link>
+                          <button
+                            onClick={() => openUpdateModal(book)}
+                            className="btn btn-warning btn-sm text-white rounded-lg"
+                          >
+                            <span className='md:hidden'><MdEdit /></span>
+                            <span className='hidden md:flex'>Update</span>
+                          </button>
+                          <button onClick={() => handleBookDelete(book._id)} className="btn btn-error btn-sm text-white rounded-lg">
+                            <span className='md:hidden'><RiDeleteBinLine /></span>
+                            <span className='hidden md:flex'>Delete</span>
+                          </button>
+                        </td>
+                      </tr>
+                    )))
+            }
 
-                                    <td className="flex gap-2 justify-center">
-                                        <button className="btn btn-info text-white btn-sm rounded-lg">View</button>
-                                        <button onClick={()=>openUpdateModal(book)} className=" btn  btn-sm rounded-lg btn-warning text-white">Update</button>
 
-                                        <button className=" btn btn-sm rounded-lg btn-error text-white  ">Delete</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+          </tbody>
+        </table>
+      </div>
 
-            {/* Modal for update */}
-            <dialog ref={modalRef} className="modal ">
-                <div className="modal-box w-11/12 max-w-5xl p-0">
-                    {selectedBook && <UpdateModal key={selectedBook._id} book={selectedBook} closeUpdateModal={closeUpdateModal} setBooks={setBooks} books={books}></UpdateModal>}
-                </div>
-            </dialog>
-
+      {/* Update Modal */}
+      <dialog ref={modalRef} className="modal">
+        <div className="modal-box w-11/12 max-w-5xl p-0">
+          {selectedBook && (
+            <UpdateModal
+              key={selectedBook._id}
+              book={selectedBook}
+              closeUpdateModal={closeUpdateModal}
+              setBooks={setBooks}
+              books={books}
+            />
+          )}
         </div>
-    );
+      </dialog>
+    </section>
+  );
 };
 
 export default MyBooks;

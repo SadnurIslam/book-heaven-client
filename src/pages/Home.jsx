@@ -1,18 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Banner from '../components/Banner';
-import LatestBooks from '../components/latestBooks';
+import LatestBooks from '../components/LatestBooks';
 import ExploreByGenre from '../components/ExploreByGenre';
 import BookOfTheWeek from '../components/BookOfTheWeek';
 
 const Home = () => {
-    return (
-        <div className='flex flex-col gap-10'>
-            <Banner></Banner>
-            <LatestBooks></LatestBooks>
-            <ExploreByGenre></ExploreByGenre>
-            <BookOfTheWeek></BookOfTheWeek>
-        </div>
-    );
+
+  useEffect(()=>{
+    document.title = "Home - The Book Heaven";
+  })
+
+  return (
+    <div className='flex flex-col gap-16'>
+      <Banner />
+      <LatestBooks />
+      <ExploreByGenre />
+      <BookOfTheWeek />
+    </div>
+  );
 };
 
 export default Home;

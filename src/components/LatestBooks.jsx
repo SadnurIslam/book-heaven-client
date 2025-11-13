@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import BooksCard from './BooksCard';
 import useAxios from '../hooks/useAxios';
+import Skeleton from './Skeleton';
 
 const LatestBooks = () => {
     const axios = useAxios();
@@ -10,32 +11,23 @@ const LatestBooks = () => {
     useEffect(() => {
         setLoading(true);
         axios.get('/books?limit=6&sort=latest')
-            .then(response => {
-                setBooks(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching latest books:', error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+            .then(res => setBooks(res.data))
+            .catch(err => console.error('Error fetching latest books:', err))
+            .finally(() => setLoading(false));
     }, [axios]);
-
-    if (loading) {
-        return <div>Loading latest books...</div>;
-    }
-    console.log(books);
 
 
     return (
-        <div className='mb-16'>
-            <h3 className='text-2xl font-bold mb-7'>Fresh on the Shelves {books.length}</h3>
-            <div className='mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-5'>
+        <section className="mb-16">
+            <h3 className="text-3xl font-bold mb-8 text-center md:text-left">Fresh on the Shelves</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-5">
                 {
-                    books.map((book) => <BooksCard key={book._id} book={book}></BooksCard>)
+                    loading ? <Skeleton></Skeleton>
+                        :
+                        books.map(book => <BooksCard key={book._id} book={book} />)
                 }
             </div>
-        </div>
+        </section>
     );
 };
 

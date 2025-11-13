@@ -34,7 +34,15 @@ const AuthProvider = ({children}) => {
 
     const signOutUser =() =>{
         setLoading(true);
-        return signOut(auth);
+        return signOut(auth)
+            .then(()=>{
+                setUser(null);
+                setLoading(false);
+            })
+            .catch((error)=>{
+                setLoading(false);
+                throw error;
+            });
     }
 
     useEffect(()=>{

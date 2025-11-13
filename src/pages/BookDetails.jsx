@@ -39,7 +39,6 @@ const BookDetails = () => {
     }, [axios, id]);
 
     useEffect(() => {
-        console.log('Fetching comments for book id:', id);
         axios.get(`/books/comments/${id}`)
             .then(res => setComments(res.data))
             .catch(err => console.error('Error fetching comments:', err));
@@ -65,7 +64,6 @@ const BookDetails = () => {
             bookId: id
         };
 
-        console.log(newComment);
 
 
 
@@ -81,7 +79,6 @@ const BookDetails = () => {
     };
 
     const handleBookDelete = async (bookId) => {
-        console.log('Deleting book with id:', bookId);
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",

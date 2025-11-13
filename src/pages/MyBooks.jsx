@@ -33,7 +33,6 @@ const MyBooks = () => {
   }, [axios, user.email]);
 
   const handleBookDelete = async (bookId) => {
-    console.log('Deleting book with id:', bookId);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",

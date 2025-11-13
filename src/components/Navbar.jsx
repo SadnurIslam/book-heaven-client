@@ -10,7 +10,10 @@ const Navbar = () => {
 
     const { user, loading, signOutUser } = use(AuthContext);
 
-    console.log("Current User in Navbar:", user);
+    if(loading){
+        return <div className='text-center my-4'>Loading...</div>;
+    }
+
 
 
     const handleSignOut = () => {
@@ -26,8 +29,12 @@ const Navbar = () => {
     const navLinks = <>
         <NavLink to='/' className='text-navlink'>Home</NavLink>
         <NavLink to='/all-books' className='text-navlink '>All Books</NavLink>
-        <NavLink to='/add-book' className='text-navlink'>Add Book</NavLink>
-        <NavLink to='/my-books' className='text-navlink '>My Books</NavLink>
+        {
+            user && <>
+                <NavLink to='/add-book' className='text-navlink'>Add Book</NavLink>
+                <NavLink to='/my-books' className='text-navlink '>My Books</NavLink>
+            </>
+        }
         <ThemeToggle></ThemeToggle>
     </>
 

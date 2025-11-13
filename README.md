@@ -1,16 +1,107 @@
-# React + Vite
+# 📚 The Book Haven
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack digital library web application where users can explore, add, update, and manage books in one place.  
+Built using **React**, **Firebase Authentication**, **Axios**, and **TailwindCSS + DaisyUI** for a clean, responsive UI.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌐 Live Site URL
+🔗 [Visit The Book Haven Live](linkhere)
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🧠 Project Features
 
-## Expanding the ESLint configuration
+- 🔐 **User Authentication** using Firebase (Email/Password & Google Login)
+- 📚 **CRUD Operations** (Add, Read, Update, Delete Books)
+- 🧾 **Private Routes** for Add Book, My Books, Update Book, and Book Details
+- 🌗 **Light/Dark Theme Toggle** for better accessibility
+- ⚙️ **Sorting & Filtering** books by Rating (Low to High / High to Low)
+- 💬 **Real-time Comments** on Book Details page
+- 📱 **Fully Responsive Design** for mobile, tablet, and desktop
+- 🌩 **Deployed on Netlify** with Firebase domain authorization
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🧭 Navigation Structure
+
+| Route | Description | Access |
+|-------|--------------|--------|
+| `/` | Home page with Banner, Latest Books, and Static Sections | Public |
+| `/all-books` | Shows all books in table format with sorting options | Public |
+| `/book-details/:id` | Shows full details of a selected book | Private |
+| `/add-book` | Add new book form (with image upload) | Private |
+| `/my-books` | List of books added by the logged-in user | Private |
+| `*` | Custom 404 Not Found Page | Public |
+
+---
+
+## 🧩 Tech Stack
+
+**Frontend:**
+- React.js (Vite)
+- React Router
+- Firebase Authentication
+- Axios for API calls
+- React Hot Toast for notifications
+- React Tooltip for info popups
+- TailwindCSS + DaisyUI for styling
+
+---
+
+## ⚙️ Environment Variables
+
+Create a `.env` file in the project root:
+
+```bash
+VITE_apiUrl=https://your-server-side.vercel.app
+VITE_imgbb_key=your_imgbb_api_key
+VITE_firebase_apiKey=your_firebase_api_key
+VITE_firebase_authDomain=your_firebase_authDomain
+VITE_firebase_projectId=your_firebase_projectId
+VITE_firebase_storageBucket=your_firebase_storageBucket
+VITE_firebase_messagingSenderId=your_firebase_messagingSenderId
+VITE_firebase_appId=your_firebase_appId
+```
+
+---
+
+## 🚀 Run Locally
+
+```bash
+# Clone the repo
+git clone https://github.com/SadnurIslam/book-heaven-client
+
+# Go to project directory
+cd book-heaven-client
+
+# Install dependencies
+npm install
+
+# Run the app
+npm run dev
+```
+
+---
+
+## 🧾 Packages Used
+
+| Package | Purpose |
+|---------|---------|
+| react-router-dom | Routing and navigation |
+| firebase | Authentication |
+| axios | API requests |
+| react-hot-toast | Success/error messages |
+| react-tooltip | Tooltip display |
+| tailwindcss + daisyui | Styling & themes |
+| framer-motion | Animations (optional) |
+
+---
+
+## 🧑‍💻 Author
+
+**Developer:** [Sadnur Islam](https://github.com/SadnurIslam)  
+📧 **Contact:** sadnurislam@gmail.com  
+🔗 **GitHub:** [github.com/SadnurIslam](https://github.com/SadnurIslam)  
+
+

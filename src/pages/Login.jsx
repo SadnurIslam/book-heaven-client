@@ -1,10 +1,13 @@
-import React, { use, useEffect } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { AuthContext } from '../contexts/AuthContext';
 import toast from "react-hot-toast";
+import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
+
 
 const Login = () => {
     const { signInWithGoogle, signInWithPassword, setLoading } = use(AuthContext);
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -44,6 +47,10 @@ const Login = () => {
             });
     }
 
+    const handlePasswordShow = () => {
+        setShowPassword(!showPassword);
+    }
+
     return (
         <div className="my-16">
             <div className="form-container max-w-md">
@@ -51,8 +58,32 @@ const Login = () => {
                 <p className="text-secondary mx-auto mb-5">Log in to your account to continue.</p>
 
                 <form onSubmit={handleSignIn} className="flex flex-col gap-3">
-                    <input name="email" type="email" className="input" placeholder="Enter your email" required />
-                    <input name="password" type="password" className="input" placeholder="Enter your password" required />
+                    <div className='flex flex-col gap-1'>
+                        <label>Email</label>
+                        <input name="email" type="email" className="input" placeholder="Enter your email" required />
+                    </div>
+
+                    {/* <input name="password" type="password" className="input" placeholder="Enter your password" required /> */}
+
+                    <div className='flex flex-col gap-1'>
+                        <label>Password</label>
+                        <div className="relative">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name="password"
+                                className="input w-full bg-[#1B1B33] text-gray-300 focus:text-white focus:ring-2 focus:ring-pink-500 focus:outline-none rounded-lg"
+                                placeholder="Enter your password"
+                                required
+                            />
+                            <p
+                                type="button"
+                                className="show-password"
+                                onClick={handlePasswordShow}
+                            >
+                                {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                            </p>
+                        </div>
+                    </div>
 
                     <button type="submit" className="my-button-primary w-full font-bold py-3">
                         Login

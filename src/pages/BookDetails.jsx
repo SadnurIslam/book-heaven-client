@@ -117,7 +117,7 @@ const BookDetails = () => {
 
             <div className='col-span-2 w-full h-full flex justify-center items-start'>
                 <img
-                    className='w-full h-auto max-h-[500px] rounded-lg object-cover shadow-lg'
+                    className='w-full min-h-[300px] md:min-h-[450px] max-h-[550px] rounded-lg object-cover shadow-lg'
                     src={book.coverImage}
                     alt={book.title}
                 />

@@ -4,12 +4,14 @@ import { AuthContext } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import { IoMdInformationCircle } from 'react-icons/io';
 import { Tooltip } from 'react-tooltip';
+import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 
 const Register = () => {
     const { signInWithGoogle, createUserWithPassword, setLoading, updateUserInfo } = use(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
     const [passwordError, setPasswordError] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
 
 
     useEffect(() => {
@@ -58,6 +60,10 @@ const Register = () => {
             });
     }
 
+    const handlePasswordShow = () => {
+        setShowPassword(!showPassword);
+    }
+
     return (
         <div className="my-16">
             <div className="form-container max-w-md">
@@ -65,14 +71,54 @@ const Register = () => {
                 <p className="text-secondary mx-auto mb-5">Start building your digital library today.</p>
 
                 <form onSubmit={handleRegistration} className="flex flex-col gap-3">
-                    <input name="name" type="text" className="input" placeholder="Enter your name" required />
-                    <input name="email" type="email" className="input" placeholder="Enter your email" required />
-                    <div className="relative">
-                        <input name="password" type="password" className="input" placeholder="Enter your password" />
-                        <IoMdInformationCircle data-tooltip-id="info-tooltip" className="absolute top-3 right-3 text-gray-400" />
-                        {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
+                    <div className='flex flex-col gap-1'>
+                        <label>Name</label>
+                        <input name="name" type="text" className="input" placeholder="Enter your name" required />
                     </div>
-                    <input name="photo" type="text" className="input" placeholder="Enter your photo URL" required />
+
+                    <div className='flex flex-col gap-1'>
+                        <label>Email</label>
+                        <input name="email" type="email" className="input" placeholder="Enter your email" required />
+                    </div>
+
+                    <div className='flex flex-col gap-1'>
+                        <div className='flex gap-1 items-center'>
+                            <label>Password</label>
+                            <IoMdInformationCircle data-tooltip-id="info-tooltip" className=" text-gray-400" />
+                        </div>
+                        <div className="relative">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name="password"
+                                className="input w-full bg-[#1B1B33] text-gray-300 focus:text-white focus:ring-2 focus:ring-pink-500 focus:outline-none rounded-lg"
+                                placeholder="Enter your password"
+                                required
+                            />
+
+                            <p
+                                type="button"
+                                className="show-password"
+                                onClick={handlePasswordShow}
+                            >
+                                {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                            </p>
+                            {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
+                        </div>
+                    </div>
+
+
+                    {/* <div className="relative">
+                        <input name="password" type="password" className="input" placeholder="Enter your password" />
+                        
+                        {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
+                    </div> */}
+
+                    <div className='flex flex-col gap-1'>
+                        <label>Photo URL</label>
+                        <input name="photo" type="text" className="input" placeholder="Enter your photo URL" required />
+                    </div>
+
+
 
                     <button type="submit" className="my-button-primary w-full font-bold py-3">
                         Register

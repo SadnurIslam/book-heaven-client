@@ -262,3 +262,12 @@ h1, h2, h3, h4 {
 select.select {
   @apply bg-base-100 border border-base-300 rounded-md;
 }
+
+
+.show-password{
+  @apply absolute right-3 top-3 text-gray-400 z-10;
+}
+
+.show-password:hover{
+  color: var(--text-secondary);
+}

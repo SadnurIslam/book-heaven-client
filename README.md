@@ -6,7 +6,7 @@ Built using **React**, **Firebase Authentication**, **Axios**, and **TailwindCSS
 ---
 
 ## 🌐 Live Site URL
-🔗 [Visit The Book Haven Live](linkhere)
+🔗 [Visit The Book Haven Live](https://book-heaven-2e7d1.web.app/)
 
 ---
 

@@ -1,25 +1,22 @@
-import React, { useEffect, useRef, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Star } from 'lucide-react';
 import { MdEdit } from 'react-icons/md';
 import { RiDeleteBinLine } from 'react-icons/ri';
-import { useNavigate, useParams } from 'react-router';
+import {  useParams } from 'react-router';
 import useAxios from '../hooks/useAxios';
 import { toast } from 'react-toastify';
 import UpdateModal from '../components/UpdateModal';
 import NoBookFound from './NoBookFound';
 import { AuthContext } from '../contexts/AuthContext';
 import Loader from '../components/Loader';
-import Swal from 'sweetalert2';
 
 const BookDetails = () => {
     const { user } = useContext(AuthContext);
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
     const [comments, setComments] = useState([]);
-    const modalRef = useRef(null);
     const { id } = useParams();
     const axios = useAxios();
-    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -49,8 +46,6 @@ const BookDetails = () => {
     if (loading) return <Loader></Loader>;
     if (!book) return <NoBookFound />;
 
-    const openUpdateModal = () => modalRef.current.showModal();
-    const closeUpdateModal = () => modalRef.current.close();
 
     const handleAddComment = (e) => {
         e.preventDefault();
@@ -78,37 +73,7 @@ const BookDetails = () => {
             .catch(err => toast.error('Failed to add comment: ' + err.message));
     };
 
-    const handleBookDelete = async (bookId) => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axios.delete(`/books/${bookId}`)
-                    .then(() => {
-                        Swal.fire(
-                            "Deleted!",
-                            "Your book has been deleted.",
-                            "success"
-                        );
-                        navigate('/my-books');
-                    })
-                    .catch((error) => {
-                        Swal.fire(
-                            "Error!",
-                            "There was an error deleting the book: " + error.message,
-                            "error"
-                        );
-                    });
-            }
-        });
-    };
-
+    
     return (
         <div className='grid grid-cols-1 md:grid-cols-5 gap-10 my-16 mx-auto max-w-5xl justify-center items-start px-4 md:px-0'>
 
@@ -132,17 +97,6 @@ const BookDetails = () => {
                         ))}
                     </div>
                     <span className='text-secondary'>({book.rating} / 5)</span>
-                </div>
-
-                <div className='flex flex-col sm:flex-row gap-3 my-3'>
-                    <button
-                        onClick={openUpdateModal}
-                        className='my-button-primary flex items-center justify-center gap-2 w-full sm:w-auto px-5 py-2'>
-                        <MdEdit /> Edit Details
-                    </button>
-                    <button onClick={() => handleBookDelete(book._id)} className='my-button-secondary flex items-center justify-center gap-2 w-full sm:w-auto px-5 py-2'>
-                        <RiDeleteBinLine /> Delete Book
-                    </button>
                 </div>
 
                 <div className='book-summary'>
@@ -178,12 +132,7 @@ const BookDetails = () => {
                 </div>
             </div>
 
-            {/* Update Modal */}
-            <dialog ref={modalRef} className="modal">
-                <div className="modal-box w-11/12 max-w-5xl p-0">
-                    <UpdateModal book={book} closeUpdateModal={closeUpdateModal} setBook={setBook} />
-                </div>
-            </dialog>
+           
         </div>
     );
 };

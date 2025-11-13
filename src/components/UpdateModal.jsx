@@ -44,7 +44,6 @@ const UpdateModal = ({ book, closeUpdateModal, setBook, setBooks, books }) => {
             <p className='text-secondary mb-5 text-center'>Edit any info to update the book.</p>
 
             <form onSubmit={handleUpdateBook} className='grid grid-cols-1 md:grid-cols-2 gap-5'>
-                {/* Left Column */}
                 <div className='flex flex-col gap-4'>
                     <div className='flex flex-col gap-1'>
                         <label>Title</label>
@@ -65,7 +64,6 @@ const UpdateModal = ({ book, closeUpdateModal, setBook, setBooks, books }) => {
                     </div>
                 </div>
 
-                {/* Right Column */}
                 <div className='flex flex-col gap-4'>
                     <div className='flex flex-col gap-1'>
                         <label>Genre</label>

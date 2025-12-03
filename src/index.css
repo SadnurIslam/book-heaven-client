@@ -100,13 +100,12 @@ a.active {
 }
 
 .my-button-secondary {
-  @apply btn btn-outline rounded-lg font-semibold transition-all;
+  @apply btn btn-outline btn-accent rounded-lg font-semibold transition-all;
   border-color: var(--border-color);
   color: var(--text-primary);
 }
 
 .my-button-secondary:hover {
-  background: var(--add-btn-bg);
   color: #fff;
   @apply scale-105;
 }

@@ -75,7 +75,7 @@ const Navbar = () => {
     <header className='my-navbar sticky top-0 z-50 bg-base-100 shadow-md px-4 md:px-8 py-2 flex justify-between items-center'>
 
       <Link to='/' className='flex items-center gap-2 font-bold text-xl md:text-2xl'>
-        <MdLocalLibrary size={32} className='logo-color' />
+        <MdLocalLibrary size={32} className='logo-color'/>
         <span>The Book Haven</span>
       </Link>
 
@@ -107,10 +107,10 @@ const Navbar = () => {
             transition={{ duration: 0.2 }}
             className='absolute right-4 top-full mt-2 w-64 bg-base-100 shadow-lg rounded-lg flex flex-col gap-4 p-4 lg:hidden z-50'
           >
-            <div className='flex flex-col gap-3'>
+            <div className='flex flex-col'>
               {navLinks}
             </div>
-            <div className='flex justify-between items-center mt-3'>
+            <div className='flex justify-between items-center mt-3 gap-0'>
               <ThemeToggle /> 
               {user ? loggedInUserLinks : userLinks}
             </div>

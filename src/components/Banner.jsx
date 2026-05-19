@@ -29,12 +29,12 @@ const Banner = () => {
 
                 <div className="flex flex-wrap justify-center gap-4 mt-8">
                     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-                        <Link to="/all-books" className="btn btn-primary font-semibold px-6 shadow-md rounded-full!">
+                        <Link to="/all-books" className="my-button-primary my-button-pill px-6 shadow-md">
                             Explore All Books
                         </Link>
                     </motion.div>
                     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-                        <Link to="/add-book" className="btn btn-outline btn-accent font-semibold px-6 rounded-full">
+                        <Link to="/add-book" className="my-button-secondary my-button-pill px-6">
                             Add a New Book
                         </Link>
                     </motion.div>

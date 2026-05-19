@@ -26,7 +26,7 @@ const MyBooks = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`books?email=${user.email}`)
+      .get(`/books?email=${user.email}`)
       .then((response) => setBooks(response.data))
       .catch((error) => console.error('Error fetching user books:', error))
       .finally(() => setLoading(false));
@@ -84,7 +84,7 @@ const MyBooks = () => {
       </div>
 
       <div className="flex justify-end mb-5">
-        <Link to="/add-book" className="btn btn-primary rounded-lg px-5 font-semibold flex items-center gap-2">
+        <Link to="/add-book" className="my-button-primary px-5 flex items-center gap-2">
           <FaPlus /> Add Book
         </Link>
       </div>
@@ -139,18 +139,18 @@ const MyBooks = () => {
                           </div>
                         </td>
                         <td className="text-center flex justify-center gap-2">
-                          <Link to={`/book-details/${book._id}`} className="btn btn-info btn-sm text-white rounded-lg">
+                          <Link to={`/book-details/${book._id}`} className="my-button-secondary my-button-sm">
                             <span className='md:hidden'><FiEye /></span>
                             <span className='hidden md:flex'>View</span>
                           </Link>
                           <button
                             onClick={() => openUpdateModal(book)}
-                            className="btn btn-warning btn-sm text-white rounded-lg"
+                            className="my-button-primary my-button-sm"
                           >
                             <span className='md:hidden'><MdEdit /></span>
                             <span className='hidden md:flex'>Update</span>
                           </button>
-                          <button onClick={() => handleBookDelete(book._id)} className="btn btn-error btn-sm text-white rounded-lg">
+                          <button onClick={() => handleBookDelete(book._id)} className="my-button-danger my-button-sm">
                             <span className='md:hidden'><RiDeleteBinLine /></span>
                             <span className='hidden md:flex'>Delete</span>
                           </button>

@@ -114,7 +114,7 @@ const AllBooks = () => {
                         <td className="text-center">
                           <Link
                             to={`/book-details/${book._id}`}
-                            className="btn btn-sm btn-primary text-white rounded-lg px-4"
+                            className="my-button-primary my-button-sm px-4"
                           >
                             <span className='md:hidden'><FiEye /></span><span className='hidden md:inline-block'>View Details</span>
                           </Link>

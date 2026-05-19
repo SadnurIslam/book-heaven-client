@@ -32,7 +32,7 @@ const Register = () => {
             });
     }
 
-    const handleRegistration = (event) => {
+    const handleRegistration = async (event) => {
         event.preventDefault();
         const name = event.target.name.value;
         const email = event.target.email.value;
@@ -47,17 +47,16 @@ const Register = () => {
             return;
         }
 
-        createUserWithPassword(email, password)
-            .then(() => {
-                updateUserInfo({ displayName: name, photoURL: photo });
-                setLoading(false);
-                toast.success(`Welcome! ${name}`, { autoClose: 1000 });
-                navigate('/');
-            })
-            .catch(error => {
-                setLoading(false);
-                toast.error(error.message, { autoClose: 2000 });
-            });
+        try {
+            await createUserWithPassword(email, password);
+            await updateUserInfo({ displayName: name, photoURL: photo });
+            toast.success(`Welcome! ${name}`, { autoClose: 1000 });
+            navigate('/');
+        } catch (error) {
+            toast.error(error.message, { autoClose: 2000 });
+        } finally {
+            setLoading(false);
+        }
     }
 
     const handlePasswordShow = () => {

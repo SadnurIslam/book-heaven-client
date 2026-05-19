@@ -17,6 +17,8 @@ const BookDetails = () => {
     const [comments, setComments] = useState([]);
     const { id } = useParams();
     const axios = useAxios();
+    const fallbackAvatar = "/avatar.svg";
+    const userPhoto = user?.photoURL || user?.providerData?.[0]?.photoURL;
 
 
     useEffect(() => {
@@ -54,7 +56,7 @@ const BookDetails = () => {
 
         const newComment = {
             userName: user.displayName,
-            photoURL: user.photoURL,
+            photoURL: userPhoto,
             comment: comment.trim(),
             bookId: id
         };
@@ -114,14 +116,22 @@ const BookDetails = () => {
                             placeholder='Add a comment...'
                             required
                         />
-                        <button type='submit' className='btn btn-primary w-36 self-end'>Post Comment</button>
+                        <button type='submit' className='my-button-primary w-36 self-end'>Post Comment</button>
                     </form>
 
                     <div className='flex flex-col gap-4'>
                         {comments.length === 0 && <p className='text-gray-500'>No comments yet.</p>}
                         {comments.map(c => (
                             <div key={c._id} className='flex gap-3 items-start bg-base-200 rounded-lg p-3 shadow-sm'>
-                                <img src={c.photoURL} alt={c.name} className='w-10 h-10 rounded-full object-cover' />
+                                <img
+                                    src={c.photoURL || fallbackAvatar}
+                                    alt={c.userName || "User avatar"}
+                                    className='w-10 h-10 rounded-full object-cover'
+                                    onError={(event) => {
+                                        event.currentTarget.onerror = null;
+                                        event.currentTarget.src = fallbackAvatar;
+                                    }}
+                                />
                                 <div>
                                     <h5 className='font-semibold text-primary'>{c.userName}</h5>
                                     <p className='text-secondary'>{c.comment}</p>

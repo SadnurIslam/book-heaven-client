@@ -12,6 +12,10 @@ const Navbar = () => {
   const { user, loading, signOutUser } = useContext(AuthContext);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  const fallbackAvatar = "/avatar.svg";
+  const userPhoto = user?.photoURL || user?.providerData?.[0]?.photoURL;
+
+  console.log("Navbar rendered. User:", user?.photoURL , "Loading:", loading);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -62,7 +66,16 @@ const Navbar = () => {
           data-tooltip-content={user?.displayName}
           data-tooltip-place='bottom'
         >
-          <img className='h-full w-full rounded-full ring-2 ring-blue-500/50' src={user?.photoURL} alt={user?.displayName} />
+          <img
+            key={userPhoto || fallbackAvatar}
+            className='h-full w-full rounded-full ring-2 ring-blue-500/50'
+            src={userPhoto || fallbackAvatar}
+            alt={user?.displayName || "User avatar"}
+            onError={(event) => {
+              event.currentTarget.onerror = null;
+              event.currentTarget.src = fallbackAvatar;
+            }}
+          />
         </a>
       </div>
       <button onClick={handleSignOut} className='my-button-secondary text-sm'>Logout</button>
@@ -73,52 +86,52 @@ const Navbar = () => {
 
   return (
     <header className='my-navbar sticky top-0 z-50 bg-base-100 shadow-md px-4 md:px-8 py-2 flex justify-between items-center'>
-
       <Link to='/' className='flex items-center gap-2 font-bold text-xl md:text-2xl'>
         <MdLocalLibrary size={32} className='logo-color'/>
         <span>The Book Haven</span>
       </Link>
 
-      <nav className='hidden lg:flex items-center gap-8'>
-        {navLinks}
-        <ThemeToggle /> 
-        {
-          loading ? (
-            <div className='flex items-center gap-5'>
-              <div className='skeleton h-10 w-10 rounded-full'></div>
-              <div className='skeleton w-16 btn rounded-md '></div>
-            </div>
-          ) : user ? loggedInUserLinks : userLinks
+      {loading ? (
+        <div className='flex items-center gap-5'>
+          <div className='skeleton h-10 w-10 rounded-full'></div>
+          <div className='skeleton w-16 btn rounded-md '></div>
+        </div>
+      ) : (
+        <>
+          <nav className='hidden lg:flex items-center gap-8'>
+            {navLinks}
+            <ThemeToggle />
+            {user ? loggedInUserLinks : userLinks}
+          </nav>
 
-        }
-      </nav>
+          <button className='lg:hidden text-2xl cursor-pointer' onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? <MdClose /> : <MdMenu />}
+          </button>
 
-      <button className='lg:hidden text-2xl cursor-pointer' onClick={() => setMenuOpen(!menuOpen)}>
-        {menuOpen ? <MdClose /> : <MdMenu />}
-      </button>
+          <AnimatePresence>
+            {menuOpen && (
+              <motion.div
+                ref={menuRef}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2 }}
+                className='absolute right-4 top-full mt-2 w-64 bg-base-100 shadow-lg rounded-lg flex flex-col gap-4 p-4 lg:hidden z-50'
+              >
+                <div className='flex flex-col'>
+                  {navLinks}
+                </div>
+                <div className='flex justify-between items-center mt-3 gap-0'>
+                  <ThemeToggle />
+                  {user ? loggedInUserLinks : userLinks}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            ref={menuRef}
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-            className='absolute right-4 top-full mt-2 w-64 bg-base-100 shadow-lg rounded-lg flex flex-col gap-4 p-4 lg:hidden z-50'
-          >
-            <div className='flex flex-col'>
-              {navLinks}
-            </div>
-            <div className='flex justify-between items-center mt-3 gap-0'>
-              <ThemeToggle /> 
-              {user ? loggedInUserLinks : userLinks}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <Tooltip id="user-tooltip" className="bg-gray-800! text-white! rounded-md! px-3! py-1! shadow-md" />
+          <Tooltip id="user-tooltip" className="bg-gray-800! text-white! rounded-md! px-3! py-1! shadow-md" />
+        </>
+      )}
     </header>
   );
 };

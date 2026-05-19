@@ -24,7 +24,7 @@ const BookOfTheWeek = () => {
                         She discovers witchcraft, a power that can transform rivals into monsters and challenge gods themselves.
                     </p>
                     <div>
-                        <button className="btn btn-primary rounded-full font-semibold">Learn More</button>
+                        <button className="my-button-secondary my-button-pill">Learn More</button>
                     </div>
                 </div>
             </div>
